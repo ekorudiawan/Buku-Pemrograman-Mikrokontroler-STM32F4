@@ -1,4 +1,4 @@
-# Komunikasi Serial UART
+# Komunikasi Serial USART \(Universal Synchronous/Asynchronous Receiver/Transmitter\)
 
 
 

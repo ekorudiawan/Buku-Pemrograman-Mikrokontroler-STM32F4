@@ -3,15 +3,15 @@
 * [Introduction](README.md)
 * [Pengenalan Mikrokontroler STM32F4](pengenalan-mikrokontroler-stm32f4.md)
 * [GPIO](gpio.md)
-  * Digital Output
-  * Digital Input
+  * [Digital Output](gpio/digital-output.md)
+  * [Digital Input](gpio/digital-input.md)
 * ADC
 * DAC
 * Timer/Counter
 * Interrupt
-* [UART](uart.md)
+* [USART](uart.md)
   * [Kirim Data ](uart/kirim-data.md)
-  * Terima Data
+  * [Terima Data](uart/terima-data.md)
 * SPI
 * I2C
 * DMA

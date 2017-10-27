@@ -76,7 +76,7 @@
 9. Untuk melakukan ujicoba program, hubungkan kabel USB to Serial ke komputer. Kemudian cek Device Manager untuk melihat nama port dari kabel USB to Serial.  
    ![](/assets/2017-10-27_114200.png)
 
-10. Buka software HTerm pada komputer Anda, kemudian samakan nama port dengan yang tertera pada Device Manager. Pastikan juga konfigurasi baudrate, databit, parity dan stop bit pada HTerm sama dengan yang sudah Anda setting pada saat membuat program sebelumnya \(Lihat langkah 5\). Pada combo box **Newline at** pilih CR+LF , pilihan ini membuat data akan ditampilkan ke bawah setiap ada karakter enter \(CR+LF\).   
+10. Buka software HTerm pada komputer Anda, kemudian samakan nama port dengan yang tertera pada Device Manager. Pastikan juga konfigurasi baudrate, databit, parity dan stop bit pada HTerm sama dengan yang sudah Anda setting pada saat membuat program sebelumnya \(Lihat langkah 5\). Pada combo box **Newline at** pilih CR+LF , pilihan ini membuat data akan ditampilkan ke bawah setiap ada karakter enter \(CR+LF\).  
     ![](/assets/2017-10-27_085452.png)
 
 11. Klik tombol Connect, kemudian perhatikan Received Data pada HTerm. Data yang dikirimkan oleh mikrokontroler akan muncul pada kolom ini. Pastikan data yang dikirim oleh mikrokontroler sama dengan yang ditampilkan pada kolom Received Data. Jika data yang muncul tidak sama kemungkinan terdapat kesalahan pada saat melakukan konfigurasi project.  
@@ -84,17 +84,21 @@
 
 12. Anda dapat melihat sinyal-sinyal data yang dikirimkan melalui USART dengan menggunakan USB Logic Analyzer. Hubungkan pin PA2 pada board STM32F4Discovery dengan CH0 pada USB Logic Analyzer.
 
-13. Buka software Saleae Logic, tekan tombol Start untuk mulai mengcapture sinyal. Pada layar akan muncul sinyal digital yang dikirimkan melalui pin transmitter USART \(PA2\).   
+13. Buka software Saleae Logic, tekan tombol Start untuk mulai mengcapture sinyal. Pada layar akan muncul sinyal digital yang dikirimkan melalui pin transmitter USART \(PA2\).  
     ![](/assets/2017-10-27_091710.png)
 
 14. Untuk melakukan analisa sinyal digital, pilih menu Analyzer kemudian pilih Async Serial.  
     ![](/assets/2017-10-27_091749.png)
 
-15.  Lakukan konfigurasi parameter serial sesuai dengan konfigurasi pada project   
+15. Lakukan konfigurasi parameter serial sesuai dengan konfigurasi pada project  
     ![](/assets/2017-10-27_091816.png)
 
 16. Pada bagian atas akan muncul karakter ASCII hasil decode dari sinyal digital yang dikirimkan melalui USART  
     ![](/assets/2017-10-27_091841.png)
+
+## Kirim Data dengan Interrupt
+
+**Percobaan**
 
 
 
