@@ -9,7 +9,9 @@
 * DAC
 * Timer/Counter
 * Interrupt
-* UART
+* [UART](uart.md)
+  * [Kirim Data ](uart/kirim-data.md)
+  * Terima Data
 * SPI
 * I2C
 * DMA
