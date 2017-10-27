@@ -100,5 +100,61 @@
 
 **Percobaan**
 
+1. Buat project baru dengan konfigurasi seperti percobaan sebelumnya. Pada pengaturan parameter USART aktifkan USART2 global interrupt
+   ![](/assets/2017-10-27_132307.png)
+
+2. Lakukan generate source code dan simpan project Anda dengan nama STM32F4\_USART\_Send\_Interrupt.
+   ![](/assets/2017-10-27_132437.png)
+
+3. Buka project Anda menggunakan Keil IDE. Kemudian lakukan modifikasi program pada file main.c seperti berikut ini :  
+   Tambahkan header file string.h  
+   `#include "string.h`  
+   Tambahkan fungsi callback di bawah ini pada file main.c  
+   `void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)   `
+
+   `{   `
+
+   `  UNUSED(huart);    `
+
+   `	HAL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);   `
+
+   `}`  
+   Lakukan modifikasi fungsi main menjadi seperti di bawah ini :  
+   `int main(void)   `
+
+   `{   `
+
+   `	char *data = "Hello World From USART - Interrupt Transmit Mode \r\n";   `
+
+   `     /* MCU Configuration----------------------------------------------------------*/   `
+
+   `  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */   `
+
+   `  HAL_Init();   `
+
+   `     /* Configure the system clock */   `
+
+   `  SystemClock_Config();   `
+
+   `     /* Initialize all configured peripherals */   `
+
+   `  MX_GPIO_Init();   `
+
+   `  MX_USART2_UART_Init();   `
+
+   `     while (1)   `
+
+   `  {   `
+
+   `		HAL_UART_Transmit_IT(&huart2,(uint8_t *)data,strlen(data));   `
+
+   `		HAL_Delay(500);   `
+
+   `  }   `
+
+   `}`  
+
+4. Lakukan kompilasi dan upload program. Buka software HTerm dan perhatikan data yang dikirimkan oleh mikrokontroler. Perhatikan juga nyala LED3.
+
 
 
