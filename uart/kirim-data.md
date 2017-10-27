@@ -22,66 +22,59 @@
    Tambahkan header file string.h  
    `#include "string.h`  
    Modifikasi fungsi main seperti berikut ini  
-   `int main(void)   `
+   `int main(void)`
 
-   `{   `
+   `{`
 
-   `	// Inisialisasi data yang akan dikirim ke UART   `
+   `// Inisialisasi data yang akan dikirim ke UART`
 
-   `	char data[] = "Hello World from USART \r\n";   `
+   `char data[] = "Hello World from USART \r\n";`
 
-   `   `
+   `  
+   /* MCU Configuration----------------------------------------------------------*/`
 
-   `  /* MCU Configuration----------------------------------------------------------*/   `
+   `  
+   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */`
 
-   `	   `
+   `HAL_Init();`
 
-   `  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */   `
+   `  
+   /* Configure the system clock */`
 
-   `  HAL_Init();   `
+   `SystemClock_Config();`
 
-   `	   `
+   `  
+   /* Initialize all configured peripherals */`
 
-   `  /* Configure the system clock */   `
+   `MX_GPIO_Init();`
 
-   `  SystemClock_Config();   `
+   `MX_USART2_UART_Init();`
 
-   `	   `
+   `  
+   /* Infinite loop */`
 
-   `  /* Initialize all configured peripherals */   `
+   `while (1)`
 
-   `  MX_GPIO_Init();   `
+   `{`
 
-   `  MX_USART2_UART_Init();   `
+   `// Pengiriman data menggunakan USART2`
 
-   `   `
+   `// Data yang dikirim adalah variabel data`
 
-   `  /* Infinite loop */   `
+   `// Panjang data yang dikirim dikalkulasi dengan fungsi strlen`
 
-   `  while (1)   `
+   `// Timeout pengiriman data 10ms`
 
-   `  {   `
+   `HAL_UART_Transmit(&huart2,(uint8_t*)data,strlen(data),10);`
 
-   `		// Pengiriman data menggunakan USART2   `
+   `// Jeda pengiriman data setiap 500ms`
 
-   `		// Data yang dikirim adalah variabel data   `
+   `HAL_Delay(500);`
 
-   `		// Panjang data yang dikirim dikalkulasi dengan fungsi strlen   `
-
-   `		// Timeout pengiriman data 10ms   `
-
-   `		HAL_UART_Transmit(&huart2,(uint8_t*)data,strlen(data),10);   `
-
-   `		// Jeda pengiriman data setiap 500ms   `
-
-   `		HAL_Delay(500);   `
-
-   `  }   `
+   `}`
 
    `}`
 
 8. 
-
-
 
 
