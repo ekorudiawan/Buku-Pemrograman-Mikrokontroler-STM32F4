@@ -132,8 +132,6 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
 
    Tambahkan fungsi _callback_ di bawah ini pada _file_ **main.c** di lokasi sebelum fungsi main. Fungsi _callback_ merupakan fungsi yang akan dieksekusi apabila terjadi iterupsi yang bersumber dari USART. Pada percobaan kali ini interupsi akan terjadi jika proses pengiriman data telah komplit. Fungsi _callback_ akan tetap dieksekusi apabila terjadi interupsi, walupun tidak pernah dipanggil pada fungsi main.
 
-   void HAL\_UART\_TxCpltCallback\(UART\_HandleTypeDef \*huart\)
-
    ```c
    void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
    {
