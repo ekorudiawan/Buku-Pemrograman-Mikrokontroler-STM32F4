@@ -44,7 +44,7 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
    Tambahkan _header file_ **string.h**
 
    ```c
-   #include "string.h
+   #include "string.h"
    ```
 
    Modifikasi fungsi **main** menjadi seperti berikut ini
@@ -52,32 +52,32 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
    ```c
    int main(void)
    {
-   	// Inisialisasi data yang akan dikirim ke UART
-   	char data[] = "Hello World from USART \r\n";
+       // Inisialisasi data yang akan dikirim ke UART
+       char data[] = "Hello World from USART \r\n";
 
-   	/* MCU Configuration----------------------------------------------------------*/
+       /* MCU Configuration----------------------------------------------------------*/
 
-   	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   	HAL_Init();
+       /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+       HAL_Init();
 
-   	/* Configure the system clock */
-   	SystemClock_Config();
+       /* Configure the system clock */
+       SystemClock_Config();
 
-   	/* Initialize all configured peripherals */
-   	MX_GPIO_Init();
-   	MX_USART2_UART_Init();
+       /* Initialize all configured peripherals */
+       MX_GPIO_Init();
+       MX_USART2_UART_Init();
 
-   	/* Infinite loop */
-   	while (1)
-   	{
-   		// Pengiriman data menggunakan USART2
-   		// Data yang dikirim adalah variabel data
-   		// Panjang data yang dikirim dikalkulasi dengan fungsi strlen
-   		// Timeout pengiriman data 10ms
-   		HAL_UART_Transmit(&huart2,(uint8_t*)data,strlen(data),10);
-   		// Jeda pengiriman data setiap 500ms
-   		HAL_Delay(500);
-   	}
+       /* Infinite loop */
+       while (1)
+       {
+           // Pengiriman data menggunakan USART2
+           // Data yang dikirim adalah variabel data
+           // Panjang data yang dikirim dikalkulasi dengan fungsi strlen
+           // Timeout pengiriman data 10ms
+           HAL_UART_Transmit(&huart2,(uint8_t*)data,strlen(data),10);
+           // Jeda pengiriman data setiap 500ms
+           HAL_Delay(500);
+       }
    }
    ```
 
@@ -137,8 +137,8 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
    ```c
    void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
    {
-   	UNUSED(huart); 
-   	HAL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
+       UNUSED(huart); 
+       HAL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
    }
    ```
 
@@ -147,24 +147,24 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
    ```c
    int main(void)
    {
-   	char *data = "Hello World From USART - Interrupt Transmit Mode \r\n";
+       char *data = "Hello World From USART - Interrupt Transmit Mode \r\n";
 
-   	/* MCU Configuration----------------------------------------------------------*/
-   	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   	HAL_Init();
+       /* MCU Configuration----------------------------------------------------------*/
+       /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+       HAL_Init();
 
-   	/* Configure the system clock */
-   	SystemClock_Config();
+       /* Configure the system clock */
+       SystemClock_Config();
 
-   	/* Initialize all configured peripherals */
-   	MX_GPIO_Init();
-   	MX_USART2_UART_Init();
+       /* Initialize all configured peripherals */
+       MX_GPIO_Init();
+       MX_USART2_UART_Init();
 
-   	while (1)
-   	{
-   		HAL_UART_Transmit_IT(&huart2,(uint8_t *)data,strlen(data));
-   		HAL_Delay(500);
-   	}
+       while (1)
+       {
+           HAL_UART_Transmit_IT(&huart2,(uint8_t *)data,strlen(data));
+           HAL_Delay(500);
+       }
    }
    ```
 
@@ -188,22 +188,22 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
    Tambahkan header file string.h
 
    ```c
-   #include "string.h
+   #include "string.h"
    ```
 
    Tambahkan baris code berikut sebelum fungsi main
 
    ```c
    #ifdef __GNUC__
-   	#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+       #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
    #else
-   	#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+       #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
    #endif
 
    PUTCHAR_PROTOTYPE
    {
-   	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);  
-   	return ch;
+       HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);  
+       return ch;
    }
    ```
 
@@ -212,25 +212,25 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
    ```c
    int main(void)
    {
-   	/* MCU Configuration----------------------------------------------------------*/
-   	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   	HAL_Init();
-	
-   	/* Configure the system clock */
-   	SystemClock_Config();
-	
-   	/* Initialize all configured peripherals */
-   	MX_GPIO_Init();
-   	MX_USART2_UART_Init();
-	
-   	int i = 0;
-	
-   	while (1)
-   	{
-   		printf("Hello From USART \r\n");
-   		printf("Loop = %d \r\n",i);
-   		HAL_Delay(500);
-   	}
+       /* MCU Configuration----------------------------------------------------------*/
+       /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+       HAL_Init();
+
+       /* Configure the system clock */
+       SystemClock_Config();
+
+       /* Initialize all configured peripherals */
+       MX_GPIO_Init();
+       MX_USART2_UART_Init();
+
+       int i = 0;
+
+       while (1)
+       {
+           printf("Hello From USART \r\n");
+           printf("Loop = %d \r\n",i);
+           HAL_Delay(500);
+       }
    }
    ```
 
