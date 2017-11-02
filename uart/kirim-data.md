@@ -49,57 +49,37 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
 
    Modifikasi fungsi **main** menjadi seperti berikut ini
 
+   ```c
+   int main(void)
+   {
+   	// Inisialisasi data yang akan dikirim ke UART
+   	char data[] = "Hello World from USART \r\n";
+
+   	/* MCU Configuration----------------------------------------------------------*/
+
+   	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+   	HAL_Init();
+
+   	/* Configure the system clock */
+   	SystemClock_Config();
+
+   	/* Initialize all configured peripherals */
+   	MX_GPIO_Init();
+   	MX_USART2_UART_Init();
+
+   	/* Infinite loop */
+   	while (1)
+   	{
+   		// Pengiriman data menggunakan USART2
+   		// Data yang dikirim adalah variabel data
+   		// Panjang data yang dikirim dikalkulasi dengan fungsi strlen
+   		// Timeout pengiriman data 10ms
+   		HAL_UART_Transmit(&huart2,(uint8_t*)data,strlen(data),10);
+   		// Jeda pengiriman data setiap 500ms
+   		HAL_Delay(500);
+   	}
+   }
    ```
-
-   ```
-
-   `int main(void)`
-
-   `{`
-
-   `// Inisialisasi data yang akan dikirim ke UART`
-
-   `char data[] = "Hello World from USART \r\n";`
-
-   `/* MCU Configuration----------------------------------------------------------*/`
-
-   `/* Reset of all peripherals, Initializes the Flash interface and the Systick. */`
-
-   `HAL_Init();`
-
-   `/* Configure the system clock */`
-
-   `SystemClock_Config();`
-
-   `/* Initialize all configured peripherals */`
-
-   `MX_GPIO_Init();`
-
-   `MX_USART2_UART_Init();`
-
-   `/* Infinite loop */`
-
-   `while (1)`
-
-   `{`
-
-   `// Pengiriman data menggunakan USART2`
-
-   `// Data yang dikirim adalah variabel data`
-
-   `// Panjang data yang dikirim dikalkulasi dengan fungsi strlen`
-
-   `// Timeout pengiriman data 10ms`
-
-   `HAL_UART_Transmit(&huart2,(uint8_t*)data,strlen(data),10);`
-
-   `// Jeda pengiriman data setiap 500ms`
-
-   `HAL_Delay(500);`
-
-   `}`
-
-   `}`
 
 9. Lakukan uji coba program dengan cara menghubungkan kabel USB to Serial ke komputer. Kemudian cek **Device Manager** untuk melihat nama _port_ dari kabel USB to Serial.  
    ![](/assets/2017-10-27_114200.png)
@@ -107,7 +87,7 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
 10. Buka _software_ HTerm pada komputer Anda, kemudian samakan nama _port_ dengan yang tertera pada **Device Manager**. Pastikan juga konfigurasi _baudrate_, _data bits_, _parity_ dan _stop bits_ pada HTerm sama dengan yang sudah Anda atur pada saat membuat program sebelumnya \(lihat langkah 5\). Pada _combo box_ **Newline at** pilih **CR+LF** , pilihan ini membuat data akan ditampilkan ke bawah setiap ada karakter _enter_ \(CR+LF\).  
     ![](/assets/2017-10-27_085452.png)
 
-11. Klik tombol **Connect**, kemudian perhatikan kolom **Received Data** pada HTerm. Data yang dikirimkan oleh mikrokontroler akan muncul pada kolom ini. Pastikan data yang dikirimkan oleh mikrokontroler sama dengan yang ditampilkan pada kolom **Received Data**. Jika data yang muncul tidak sama kemungkinan terdapat kesalahan pada saat melakukan konfigurasi _project _atau kesalahan pengaturan parameter serial _port_.  
+11. Klik tombol **Connect**, kemudian perhatikan kolom **Received Data** pada HTerm. Data yang dikirimkan oleh mikrokontroler akan muncul pada kolom ini. Pastikan data yang dikirimkan oleh mikrokontroler sama dengan yang ditampilkan pada kolom **Received Data**. Jika data yang muncul tidak sama kemungkinan terdapat kesalahan pada saat melakukan konfigurasi _project \_atau kesalahan pengaturan parameter serial \_port_.  
     ![](/assets/2017-10-27_091006.png)
 
 12. Anda dapat melihat sinyal-sinyal data yang dikirimkan melalui USART dengan menggunakan USB Logic Analyzer. Hubungkan pin PA2 pada STM32F4Discovery dengan CH0 pada USB Logic Analyzer.
@@ -118,7 +98,7 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
 14. Untuk melakukan analisa sinyal digital, pilih menu **Analyzer** kemudian pilih **Async Serial**.  
     ![](/assets/2017-10-27_091749.png)
 
-15. Lakukan konfigurasi parameter serial sesuai dengan konfigurasi pada _project _yang telah Anda buat.  
+15. Lakukan konfigurasi parameter serial sesuai dengan konfigurasi pada \_project \_yang telah Anda buat.  
     ![](/assets/2017-10-27_091816.png)
 
 16. Pada bagian atas akan muncul karakter ASCII hasil _decode_ dari sinyal digital yang dikirimkan melalui USART.  
@@ -154,51 +134,39 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
 
    void HAL\_UART\_TxCpltCallback\(UART\_HandleTypeDef \*huart\)
 
+   ```c
+   void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+   {
+   	UNUSED(huart); 
+   	HAL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
+   }
    ```
-   fdgdfgfg
+
+   Lakukan modifikasi fungsi main menjadi seperti di bawah ini :
+
+   ```c
+   int main(void)
+   {
+   	char *data = "Hello World From USART - Interrupt Transmit Mode \r\n";
+
+   	/* MCU Configuration----------------------------------------------------------*/
+   	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+   	HAL_Init();
+
+   	/* Configure the system clock */
+   	SystemClock_Config();
+
+   	/* Initialize all configured peripherals */
+   	MX_GPIO_Init();
+   	MX_USART2_UART_Init();
+
+   	while (1)
+   	{
+   		HAL_UART_Transmit_IT(&huart2,(uint8_t *)data,strlen(data));
+   		HAL_Delay(500);
+   	}
+   }
    ```
-
-   `{`
-
-   `UNUSED(huart);`
-
-   `HAL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);`
-
-   `}`  
-   Lakukan modifikasi fungsi main menjadi seperti di bawah ini :  
-   `int main(void)`
-
-   `{`
-
-   `char *data = "Hello World From USART - Interrupt Transmit Mode \r\n";`
-
-   `/* MCU Configuration----------------------------------------------------------*/`
-
-   `/* Reset of all peripherals, Initializes the Flash interface and the Systick. */`
-
-   `HAL_Init();`
-
-   `/* Configure the system clock */`
-
-   `SystemClock_Config();`
-
-   `/* Initialize all configured peripherals */`
-
-   `MX_GPIO_Init();`
-
-   `MX_USART2_UART_Init();`
-
-   `while (1)`
-
-   `{`
-
-   `HAL_UART_Transmit_IT(&huart2,(uint8_t *)data,strlen(data));`
-
-   `HAL_Delay(500);`
-
-   `}`
-
-   `}`
 
 4. Lakukan kompilasi dan _upload_ program ke mikrokontroler. Buka _software_ HTerm dan perhatikan data yang dikirimkan oleh mikrokontroler. Perhatikan juga nyala LED3 pada STM32F4Discovery. LED3 akan berkedip jika transmisi data telah komplit atau telah selesai.
 
@@ -214,68 +182,59 @@ Data yang akan dikirimkan ke komputer merupakan data ASCII dari teks "Hello Worl
 
 **Percobaan**
 
-1. Buat _project_ baru dengan konfigurasi yang sama seperti percobaan 1. _Generate source code_ dan simpan _project_ Anda dengan nama **STM32F4\_USART\_send\_Printf**.
-2. Lakukan modifikasi program seperti berikut :  
-   Tambahkan _header file_ **string.h**  
-   `#include "string.h`  
-   Tambahkan baris code berikut sebelum fungsi main  
-   `#ifdef __GNUC__`
+1. Buat _project_ baru dengan konfigurasi yang sama seperti percobaan 1. _Generate source code_ dan simpan _project_ Anda dengan nama **STM32F4\_USART\_Send\_Printf**.
+2. Lakukan modifikasi program seperti berikut :
 
-   `#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)`
+   Tambahkan header file string.h
 
-   `#else`
+   ```c
+   #include "string.h
+   ```
 
-   `#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)`
+   Tambahkan baris code berikut sebelum fungsi main
 
-   `#endif`
+   ```c
+   #ifdef __GNUC__
+   	#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+   #else
+   	#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+   #endif
 
-   `PUTCHAR_PROTOTYPE`
+   PUTCHAR_PROTOTYPE
+   {
+   	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);  
+   	return ch;
+   }
+   ```
 
-   `{`
+   Modifikasi fungsi main menjadi seperti baris source code berikut ini
 
-   `HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);`
+   ```c
+   int main(void)
+   {
+   	/* MCU Configuration----------------------------------------------------------*/
+   	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+   	HAL_Init();
+	
+   	/* Configure the system clock */
+   	SystemClock_Config();
+	
+   	/* Initialize all configured peripherals */
+   	MX_GPIO_Init();
+   	MX_USART2_UART_Init();
+	
+   	int i = 0;
+	
+   	while (1)
+   	{
+   		printf("Hello From USART \r\n");
+   		printf("Loop = %d \r\n",i);
+   		HAL_Delay(500);
+   	}
+   }
+   ```
 
-   `return ch;`
-
-   `}`  
-   Modifikasi fungsi main menjadi seperti baris _source code_ berikut ini  
-   `int main(void)`
-
-   `{`
-
-   `/* MCU Configuration----------------------------------------------------------*/`
-
-   `/* Reset of all peripherals, Initializes the Flash interface and the Systick. */`
-
-   `HAL_Init();`
-
-   `/* Configure the system clock */`
-
-   `SystemClock_Config();`
-
-   `/* Initialize all configured peripherals */`
-
-   `MX_GPIO_Init();`
-
-   `MX_USART2_UART_Init();`
-
-   `int i = 0;`
-
-   `while (1)`
-
-   `{`
-
-   `printf("Hello From USART \r\n");`
-
-   `printf("Loop = %d \r\n",i);`
-
-   `HAL_Delay(500);`
-
-   `}`
-
-   `}`
-
-3. Lakukan kompilasi dan uji coba program menggunakan _software_ HTerm. 
+3. Lakukan kompilasi dan uji coba program menggunakan _software_ HTerm.
 
 
 
