@@ -88,12 +88,12 @@
 
 **Langkah Percobaan**
 
-1. Buatlah project baru menggunakan STM32 CubeMX. Lakukan konfigurasi seperti pada percobaan pertama. Pada saat melakukan konfigurasi SPI2, aktifkan mode interupsi dengan cara mencentang menu SPI2 global interrupt pada tab menu NVIC Settings 
+1. Buatlah project baru menggunakan STM32 CubeMX. Lakukan konfigurasi seperti pada percobaan pertama. Pada saat melakukan konfigurasi SPI2, aktifkan mode interupsi dengan cara mencentang menu SPI2 global interrupt pada tab menu NVIC Settings   
    ![](/assets/2017-11-24_143204.png)
 
-2. Simpan project Anda dengan nama STM32\_F4\_SPI\_Master\_Send\_Interrupt   
+2. Simpan project Anda dengan nama STM32\_F4\_SPI\_Master\_Send\_Interrupt
 
-3. Tambahkan program berikut ini pada file main.c 
+3. Tambahkan program berikut ini pada file main.c
 
    Tambahkan header file "string.h"
 
@@ -116,30 +116,58 @@
    ```c
    int main(void)
    {
-     uint8_t data[] = "Hello";
+   	uint8_t data[] = "Hello";
+
+     /* USER CODE BEGIN 1 */
+
+     /* USER CODE END 1 */
 
      /* MCU Configuration----------------------------------------------------------*/
+
      /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
      HAL_Init();
+
+     /* USER CODE BEGIN Init */
+
+     /* USER CODE END Init */
 
      /* Configure the system clock */
      SystemClock_Config();
 
+     /* USER CODE BEGIN SysInit */
+
+     /* USER CODE END SysInit */
+
      /* Initialize all configured peripherals */
      MX_GPIO_Init();
+     //MX_I2C1_Init();
+     //MX_I2S3_Init();
+     //MX_SPI1_Init();
+     //MX_USB_HOST_Init();
      MX_SPI2_Init();
 
+     /* USER CODE BEGIN 2 */
+
+     /* USER CODE END 2 */
 
      /* Infinite loop */
+     /* USER CODE BEGIN WHILE */
      while (1)
      {
-       HAL_SPI_Transmit_IT(&hspi2,data,strlen(data));
-       HAL_Delay(500);
+     /* USER CODE END WHILE */
+       //MX_USB_HOST_Process();
+   		HAL_SPI_Transmit_IT(&hspi2,data,strlen(data));
+   		HAL_Delay(500);
+	
+     /* USER CODE BEGIN 3 */
+
      }
+     /* USER CODE END 3 */
+
    }
    ```
 
-4. sfasf
+1. sfasf
 
 
 
