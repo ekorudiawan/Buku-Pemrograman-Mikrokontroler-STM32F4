@@ -12,7 +12,9 @@
 * [USART](uart.md)
   * [Kirim Data ](uart/kirim-data.md)
   * [Terima Data](uart/terima-data.md)
-* SPI
+* [SPI](spi.md)
+  * [Kirim Data](spi/kirim-data.md)
+  * Terima Data
 * I2C
 * DMA
 
