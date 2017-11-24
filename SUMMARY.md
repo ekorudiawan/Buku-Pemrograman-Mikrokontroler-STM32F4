@@ -14,7 +14,7 @@
   * [Terima Data](uart/terima-data.md)
 * [SPI](spi.md)
   * [Kirim Data](spi/kirim-data.md)
-  * Terima Data
+  * [Terima Data](spi/terima-data.md)
 * I2C
 * DMA
 
