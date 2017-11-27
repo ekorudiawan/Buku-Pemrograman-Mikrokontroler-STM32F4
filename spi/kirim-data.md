@@ -139,7 +139,7 @@
    }
    ```
 
-4. Untuk melakukan ujicoba pada percobaan kali ini, lakukan hal yang sama seperti pada percobaan pertama. 
+4. Untuk melakukan ujicoba pada percobaan kali ini, lakukan hal yang sama seperti pada percobaan pertama.
 
 
 
