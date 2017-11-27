@@ -224,8 +224,6 @@
 
 9. Ujicoba dapat dilakukan dengan cara yang sama seperti pada percobaan sebelumnya yaitu dengan menekan tombol user pada mikrokontroler master dan melihat nyala LED pada mikrokontroler slave
 
-
-
 ## Komunikasi SPI MAX7219
 
 **Kebutuhan Komponen**
@@ -238,40 +236,40 @@
 
 **Langkah Percobaan**
 
-1. Buatlah project baru menggunakan STM32Cube MX. Aktifkan peripheral SPI2 dengan mode Full-Duplex Master.
+1. Buatlah project baru menggunakan STM32Cube MX. Aktifkan peripheral SPI2 dengan mode Full-Duplex Master.  
    ![](/assets/2017-11-27_130007 - Copy.png)
 
-2. Lakukan konfigurasi GPIO pada pin PB12 menjadi output
+2. Lakukan konfigurasi GPIO pada pin PB12 menjadi output  
    ![](/assets/2017-11-27_130014 - Copy.png)
 
-3. Lakukan konfigurasi pada peripheral SPI2. Aturlah nilai prescaler menjadi 256, sehingga kecepatan transfer data menjadi 164.062 KBps 
+3. Lakukan konfigurasi pada peripheral SPI2. Aturlah nilai prescaler menjadi 256, sehingga kecepatan transfer data menjadi 164.062 KBps   
    ![](/assets/2017-11-27_131912.png)  
    ![](/assets/2017-11-27_130143.png)
 
-4. Pada menu konfigurasi GPIO ubahlah label pada pin PB12 menjadi SPI2\_SS
+4. Pada menu konfigurasi GPIO ubahlah label pada pin PB12 menjadi SPI2\_SS  
    ![](/assets/2017-11-27_130056.png)
 
-5. Ubahlah program pada file main.c menjadi seperti berikut ini
+5. Ubahlah program pada file main.c menjadi seperti berikut ini  
    Tambahkan definisi alamat register MAX7219
 
    ```c
-   #define OP_NOOP   		0
-   #define OP_DIGIT0 		1
-   #define OP_DIGIT1 		2
-   #define OP_DIGIT2 		3
-   #define OP_DIGIT3 		4
-   #define OP_DIGIT4 		5
-   #define OP_DIGIT5 		6
-   #define OP_DIGIT6 		7
-   #define OP_DIGIT7 		8
-   #define OP_DECODEMODE  	9
-   #define OP_INTENSITY   	10
-   #define OP_SCANLIMIT   	11
-   #define OP_SHUTDOWN    	12
-   #define OP_DISPLAYTEST 	15
+   #define OP_NOOP           0
+   #define OP_DIGIT0         1
+   #define OP_DIGIT1         2
+   #define OP_DIGIT2         3
+   #define OP_DIGIT3         4
+   #define OP_DIGIT4         5
+   #define OP_DIGIT5         6
+   #define OP_DIGIT6         7
+   #define OP_DIGIT7         8
+   #define OP_DECODEMODE      9
+   #define OP_INTENSITY       10
+   #define OP_SCANLIMIT       11
+   #define OP_SHUTDOWN        12
+   #define OP_DISPLAYTEST     15
    ```
 
-   Tambahkan deklarasi variabel 
+   Tambahkan deklarasi variabel
 
    ```c
    uint8_t max7219Data[2];
@@ -282,12 +280,12 @@
 
    ```c
    void max7219Write(uint8_t address, uint8_t data) {
-   	HAL_GPIO_WritePin(SPI2_SS_GPIO_Port, SPI2_SS_Pin, GPIO_PIN_RESET);
-   	max7219Data[0] = address;
-   	max7219Data[1] = data;
-   	HAL_SPI_Transmit(&hspi2,max7219Data,2,1);
-   	HAL_GPIO_WritePin(SPI2_SS_GPIO_Port, SPI2_SS_Pin, GPIO_PIN_SET);
-   	HAL_Delay(1);
+       HAL_GPIO_WritePin(SPI2_SS_GPIO_Port, SPI2_SS_Pin, GPIO_PIN_RESET);
+       max7219Data[0] = address;
+       max7219Data[1] = data;
+       HAL_SPI_Transmit(&hspi2,max7219Data,2,1);
+       HAL_GPIO_WritePin(SPI2_SS_GPIO_Port, SPI2_SS_Pin, GPIO_PIN_SET);
+       HAL_Delay(1);
    }
    ```
 
@@ -295,7 +293,7 @@
 
    ```c
    int main(void)
-   {	
+   {    
      int counter = 0;
 
      /* MCU Configuration----------------------------------------------------------*/
@@ -313,45 +311,44 @@
      max7219Write(OP_DISPLAYTEST, 0x00);
      max7219Write(OP_INTENSITY, 0x0F);
      max7219Write(OP_SHUTDOWN, 0x01);
-	
-     int i=0;
-	
+
      uint8_t digit7, digit6, digit5, digit4, digit3, digit2, digit1, digit0;
      int modDigit7, modDigit6, modDigit5, modDigit4, modDigit3, modDigit2, modDigit1;
      while (1)
      {
-   	counter++;
-   	digit7 = counter / 10000000;
-   	modDigit7 = counter % 10000000;
-   	digit6 = modDigit7 / 1000000;
-   	modDigit6 = modDigit7 % 1000000;
-   	digit5 = modDigit6 / 100000;
-   	modDigit5 = modDigit6 % 100000;
-   	digit4 = modDigit5 / 10000;
-   	modDigit4 = modDigit5 % 10000;
-   	digit3 = modDigit4 / 1000;
-   	modDigit3 = modDigit4 % 1000;
-   	digit2 = modDigit3 / 100;
-   	modDigit2 = modDigit3 % 100;
-   	digit1 = modDigit2 / 10;
-   	modDigit1 = modDigit2 % 10;
-   	digit0 = modDigit1 % 10;
+       counter++;
+       digit7 = counter / 10000000;
+       modDigit7 = counter % 10000000;
+       digit6 = modDigit7 / 1000000;
+       modDigit6 = modDigit7 % 1000000;
+       digit5 = modDigit6 / 100000;
+       modDigit5 = modDigit6 % 100000;
+       digit4 = modDigit5 / 10000;
+       modDigit4 = modDigit5 % 10000;
+       digit3 = modDigit4 / 1000;
+       modDigit3 = modDigit4 % 1000;
+       digit2 = modDigit3 / 100;
+       modDigit2 = modDigit3 % 100;
+       digit1 = modDigit2 / 10;
+       modDigit1 = modDigit2 % 10;
+       digit0 = modDigit1 % 10;
 
-   	max7219Write(OP_DIGIT7, charTable[digit7]);
-   	max7219Write(OP_DIGIT6, charTable[digit6]);
-   	max7219Write(OP_DIGIT5, charTable[digit5]);
-   	max7219Write(OP_DIGIT4, charTable[digit4]);
-   	max7219Write(OP_DIGIT3, charTable[digit3]);
-   	max7219Write(OP_DIGIT2, charTable[digit2]);
-   	max7219Write(OP_DIGIT1, charTable[digit1]);
-   	max7219Write(OP_DIGIT0, charTable[digit0]);
+       max7219Write(OP_DIGIT7, charTable[digit7]);
+       max7219Write(OP_DIGIT6, charTable[digit6]);
+       max7219Write(OP_DIGIT5, charTable[digit5]);
+       max7219Write(OP_DIGIT4, charTable[digit4]);
+       max7219Write(OP_DIGIT3, charTable[digit3]);
+       max7219Write(OP_DIGIT2, charTable[digit2]);
+       max7219Write(OP_DIGIT1, charTable[digit1]);
+       max7219Write(OP_DIGIT0, charTable[digit0]);
 
-   	HAL_Delay(500);
+       HAL_Delay(500);
      }
    }
    ```
 
-6. Lakukan kompilasi dan download program ke mikrokontroler. 
+6. Lakukan kompilasi dan download program ke mikrokontroler.
+
 7. Ujicoba percobaan dengan cara menghubungkan mikrokontroler dengan modul 7 segment display MAX7219. 7 Segment akan menampilkan nilai variabel counter yang menghitung naik secara terus menerus.
 
 
