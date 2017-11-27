@@ -9,12 +9,13 @@
 
 **Langkah Percobaan**
 
-1. Buatlah program pada STM32F4Discovery yang berfungsi sebagai master. Aktifkan konfigurasi SPI2 dengan kecepatan transfer data 21.0Mbps seperti berikut ini
+1. Buatlah program pada STM32F4Discovery yang berfungsi sebagai master. Aktifkan konfigurasi SPI2 dengan kecepatan transfer data 21.0Mbps seperti berikut ini  
    ![](/assets/2017-11-27_093032.png)  
    ![](/assets/2017-11-27_093038.png)
 
 2. Simpan project Anda dengan nama STM32F4\_SPI\_Master\_Send\_Pooling, kemudian buka project menggunakan Keil MDK ARM 5.
-3. Lakukan modifikasi program pada STM32F4Discovery yang berfungsi sebagai master menjadi seperti berikut ini
+
+3. Lakukan modifikasi program pada STM32F4Discovery yang berfungsi sebagai master menjadi seperti berikut ini  
    Ubahlah fungsi main menjadi seperti berikut ini
 
    ```c
@@ -22,7 +23,7 @@
    {
      // Deklarasi variabel yang akan dikirimkan ke STM32F4Discovery Slave
      uint8_t sendData[1];
-  
+
      /* MCU Configuration----------------------------------------------------------*/
      /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
      HAL_Init();
@@ -52,14 +53,16 @@
    ```
 
 4. Lakukan download program ke STM32F4Discovery yang berfungsi sebagai master
-5. Buatlah program pada STM32F4Discovery yang berfungsi sebagai slave menggunakan STM32Cube MX. Aktifkan konfigurasi SPI2 dengan mode Full-Duplex Slave
+
+5. Buatlah program pada STM32F4Discovery yang berfungsi sebagai slave menggunakan STM32Cube MX. Aktifkan konfigurasi SPI2 dengan mode Full-Duplex Slave  
    ![](/assets/2017-11-27_084412 - Copy.png)
 
 6. Pada menu SPI2 Configuration ubahlah User Label pada pin yang digunakan untuk komunikasi SPI  
    ![](/assets/2017-11-27_084531.png)
 
 7. Simpan project Anda dengan nama STM32F4\_Slave\_Receive\_Pooling dan buka menggunakan Keil
-8. Lakukan modifikasi program pada file main.c manjadi berikut ini
+
+8. Lakukan modifikasi program pada file main.c manjadi berikut ini  
    Ubahlah fungsi main menjadi seperti berikut ini
 
    ```c
@@ -99,7 +102,88 @@
    ```
 
 9. Lakukan kompilasi dan download program ke mikrokontroler. Hubungkan STM32F4Discovery master dan STM32F4Discovery  slave sesuai koneksi pada gambar percobaan
+
 10. Untuk melakukan ujicoba, tekan tombol pada mikrokontroler master dan perhatikan nyala LED pada mikrokontroler slave. Jika percobaan Anda benar, ketika tombol pada mikrokontroler master ditekan LED pada mikrokontroler slave akan menyala yang menandakan slave menerima data dari mikrokontroler master.
+
+## Terima Data dengan Sistem Interupsi
+
+**Kebutuhan Komponen**
+
+1. Sistem Minimum STM32F4Discovery 2 unit
+2. Kabel Jumper Male-Female secukupnya
+
+**Gambar Percobaan**
+
+**Langkah Percobaan**
+
+1. Buatlah project pada mikrokontroler master dengan mengaktifkan fitur SPI2 mode Full-Duplex Master. Aturlah konfigurasi pada SPI2 dengan kecepatan transfer data 21Mbps dan mengaktifkan SPI2 Global interrupt.
+   ![](/assets/2017-11-27_103225.png)  
+   ![](/assets/2017-11-27_103312.png)  
+   ![](/assets/2017-11-27_103303.png)
+
+2. Simpan project Anda dengan nama STM32F4\_SPI\_Master\_Send\_Interrupt.
+3. Lakukan modifikasi pada file main.c seperti berikut ini
+   Tambahkan program berikut ini pada fungsi main
+
+   ```c
+   int main(void)
+   {
+     // Inisialisasi variabel sendData 
+     uint8_t sendData[1];
+
+     /* MCU Configuration----------------------------------------------------------*/
+
+     /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+     HAL_Init();
+
+     /* USER CODE BEGIN Init */
+
+     /* USER CODE END Init */
+
+     /* Configure the system clock */
+     SystemClock_Config();
+
+     /* USER CODE BEGIN SysInit */
+
+     /* USER CODE END SysInit */
+
+     /* Initialize all configured peripherals */
+     MX_GPIO_Init();
+     //MX_I2C1_Init();
+     //MX_I2S3_Init();
+     //MX_SPI1_Init();
+     //MX_USB_HOST_Init();
+     MX_SPI2_Init();
+
+     /* USER CODE BEGIN 2 */
+
+     /* USER CODE END 2 */
+
+     /* Infinite loop */
+     /* USER CODE BEGIN WHILE */
+     while (1)
+     {
+     /* USER CODE END WHILE */
+       //MX_USB_HOST_Process();
+       if(HAL_GPIO_ReadPin(B1_GPIO_Port,B1_Pin)==1) {
+         sendData[0] = 255;
+       }
+       // Jika tombol user tidak ditekan variabel sendData[0] bernilai 0
+       else {
+         sendData[0] = 0;
+       }
+       // Kirim variabel sendData ke SPI2 menggunakan interrupt
+       HAL_SPI_Transmit_IT(&hspi2,sendData,1);
+
+     /* USER CODE BEGIN 3 */
+
+     }
+     /* USER CODE END 3 */
+
+   }
+   ```
+
+4. sdfcsadfsa
 
 
 
