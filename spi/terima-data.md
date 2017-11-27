@@ -116,13 +116,14 @@
 
 **Langkah Percobaan**
 
-1. Buatlah project pada mikrokontroler master dengan mengaktifkan fitur SPI2 mode Full-Duplex Master. Aturlah konfigurasi pada SPI2 dengan kecepatan transfer data 21Mbps dan mengaktifkan SPI2 Global interrupt.
+1. Buatlah project pada mikrokontroler master dengan mengaktifkan fitur SPI2 mode Full-Duplex Master. Aturlah konfigurasi pada SPI2 dengan kecepatan transfer data 21Mbps dan mengaktifkan SPI2 Global interrupt.  
    ![](/assets/2017-11-27_103225.png)  
    ![](/assets/2017-11-27_103312.png)  
    ![](/assets/2017-11-27_103303.png)
 
 2. Simpan project Anda dengan nama STM32F4\_SPI\_Master\_Send\_Interrupt.
-3. Lakukan modifikasi pada file main.c seperti berikut ini
+
+3. Lakukan modifikasi pada file main.c seperti berikut ini  
    Tambahkan program berikut ini pada fungsi main
 
    ```c
@@ -132,39 +133,20 @@
      uint8_t sendData[1];
 
      /* MCU Configuration----------------------------------------------------------*/
-
      /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
      HAL_Init();
-
-     /* USER CODE BEGIN Init */
-
-     /* USER CODE END Init */
 
      /* Configure the system clock */
      SystemClock_Config();
 
-     /* USER CODE BEGIN SysInit */
-
-     /* USER CODE END SysInit */
-
      /* Initialize all configured peripherals */
      MX_GPIO_Init();
-     //MX_I2C1_Init();
-     //MX_I2S3_Init();
-     //MX_SPI1_Init();
-     //MX_USB_HOST_Init();
      MX_SPI2_Init();
 
-     /* USER CODE BEGIN 2 */
-
-     /* USER CODE END 2 */
-
      /* Infinite loop */
-     /* USER CODE BEGIN WHILE */
      while (1)
      {
-     /* USER CODE END WHILE */
-       //MX_USB_HOST_Process();
+       // Jika tombol user ditekan variabel sendData[0] bernilai 255
        if(HAL_GPIO_ReadPin(B1_GPIO_Port,B1_Pin)==1) {
          sendData[0] = 255;
        }
@@ -174,16 +156,73 @@
        }
        // Kirim variabel sendData ke SPI2 menggunakan interrupt
        HAL_SPI_Transmit_IT(&hspi2,sendData,1);
-
-     /* USER CODE BEGIN 3 */
-
      }
-     /* USER CODE END 3 */
-
    }
    ```
 
-4. sdfcsadfsa
+4. Lakukan kompilasi program dan download program ke mikrokontroler master
+
+5. Buatlah project baru pada mikrokontroler slave dengan mengaktifkan fitur SPI2 mode Full-Duplex Slave. Aktifkan mode SPI2 Global interrupt pada konfigurasi SPI2.  
+   ![](/assets/2017-11-27_084412 - Copy.png)  
+   ![](/assets/2017-11-27_102437.png)  
+   ![](/assets/2017-11-27_102444.png)
+
+6. Simpan project Anda dengan nama STM32F4\_SPI\_SLave\_Receive\_Interrupt
+
+7. Lakukan modifikasi program pada file main.c menjadi seperti berikut ini
+
+   Tambahkan global variabel 
+
+   ```c
+   uint8_t receivedData[1];
+   ```
+
+   Buatlah fungsi callback yang berfungsi untuk meng-handle interupsi jika ada 1 byte data yang diterima oleh mikrokontroler slave
+
+   ```c
+   void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
+   {
+     UNUSED(hspi);
+     // Jika variabel receivedData[0] bernilai 255
+     // Nyalakan LED
+     if(receivedData[0] == 255) {
+   	HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,1);
+     }
+     // Jika variabel receivedData[0] bernilai 0
+     // Matikan LED
+     else {
+   	HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,0);
+     }
+   }
+   ```
+
+   Tambahkan program berikut ini pada fungsi main, yang berfungsi untuk mengaktifkan penerimaan data melalui interrupt
+
+   ```c
+   int main(void)
+   {
+     /* MCU Configuration----------------------------------------------------------*/
+     /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+     HAL_Init();
+
+     /* Configure the system clock */
+     SystemClock_Config();
+
+     /* Initialize all configured peripherals */
+     MX_GPIO_Init();
+     MX_SPI2_Init();
+
+     /* Infinite loop */
+     while (1)
+     {
+       HAL_SPI_Receive_IT(&hspi2,receivedData,1);
+     }
+   }
+   ```
+
+8. Lakukan kompilasi dan download program pada mikrokontroler slave
+
+9. Ujicoba dapat dilakukan dengan cara yang sama seperti pada percobaan sebelumnya yaitu dengan menekan tombol user pada mikrokontroler master dan melihat nyala LED pada mikrokontroler slave
 
 
 
