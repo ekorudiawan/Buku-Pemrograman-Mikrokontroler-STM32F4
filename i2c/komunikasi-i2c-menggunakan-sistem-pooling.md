@@ -118,6 +118,15 @@
 
 5. sdfsdf
 
+6. fsdgsdg
+
+   ```
+   dfghfdg
+   ```
+
+7. sdfsdf
+
+8. 
 ```c
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -194,19 +203,19 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	
+
   while (1)
   {
   /* USER CODE END WHILE */
     //MX_USB_HOST_Process();
-		HAL_I2C_Slave_Receive(&hi2c1,receiveData,1,1000);
-		if (receiveData[0] == 255) {
-			HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,1);
-		}
-		else if(receiveData[0] == 127) {
-			HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,0);
-		}
-		
+        HAL_I2C_Slave_Receive(&hi2c1,receiveData,1,1000);
+        if (receiveData[0] == 255) {
+            HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,1);
+        }
+        else if(receiveData[0] == 127) {
+            HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,0);
+        }
+
 
   /* USER CODE BEGIN 3 */
 
@@ -218,7 +227,7 @@ int main(void)
 
 
 
-1. sadfs
+
 
 
 
