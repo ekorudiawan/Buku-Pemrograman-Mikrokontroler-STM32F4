@@ -118,6 +118,104 @@
 
 5. sdfsdf
 
+   ```c
+   /* Includes ------------------------------------------------------------------*/
+   #include "main.h"
+   #include "stm32f4xx_hal.h"
+   #include "usb_host.h"
+
+   /* USER CODE BEGIN Includes */
+
+   /* USER CODE END Includes */
+
+   /* Private variables ---------------------------------------------------------*/
+   I2C_HandleTypeDef hi2c1;
+
+   I2S_HandleTypeDef hi2s3;
+
+   SPI_HandleTypeDef hspi1;
+
+   /* USER CODE BEGIN PV */
+   /* Private variables ---------------------------------------------------------*/
+
+   /* USER CODE END PV */
+
+   /* Private function prototypes -----------------------------------------------*/
+   void SystemClock_Config(void);
+   static void MX_GPIO_Init(void);
+   static void MX_I2C1_Init(void);
+   static void MX_I2S3_Init(void);
+   static void MX_SPI1_Init(void);
+   void MX_USB_HOST_Process(void);
+
+   /* USER CODE BEGIN PFP */
+   /* Private function prototypes -----------------------------------------------*/
+
+   /* USER CODE END PFP */
+
+   /* USER CODE BEGIN 0 */
+
+   /* USER CODE END 0 */
+   uint8_t receiveData[1];
+
+   int main(void)
+   {
+
+     /* USER CODE BEGIN 1 */
+
+     /* USER CODE END 1 */
+
+     /* MCU Configuration----------------------------------------------------------*/
+
+     /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+     HAL_Init();
+
+     /* USER CODE BEGIN Init */
+
+     /* USER CODE END Init */
+
+     /* Configure the system clock */
+     SystemClock_Config();
+
+     /* USER CODE BEGIN SysInit */
+
+     /* USER CODE END SysInit */
+
+     /* Initialize all configured peripherals */
+     MX_GPIO_Init();
+     MX_I2C1_Init();
+     //MX_I2S3_Init();
+     //MX_SPI1_Init();
+     //MX_USB_HOST_Init();
+
+     /* USER CODE BEGIN 2 */
+
+     /* USER CODE END 2 */
+
+     /* Infinite loop */
+     /* USER CODE BEGIN WHILE */
+	
+     while (1)
+     {
+     /* USER CODE END WHILE */
+       //MX_USB_HOST_Process();
+   		HAL_I2C_Slave_Receive(&hi2c1,receiveData,1,1000);
+   		if (receiveData[0] == 255) {
+   			HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,1);
+   		}
+   		else if(receiveData[0] == 127) {
+   			HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,0);
+   		}
+		
+
+     /* USER CODE BEGIN 3 */
+
+     }
+     /* USER CODE END 3 */
+
+   }
+   ```
+
 6. halooo
 
 
