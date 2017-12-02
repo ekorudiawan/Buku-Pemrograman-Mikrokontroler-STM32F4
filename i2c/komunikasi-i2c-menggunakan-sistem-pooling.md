@@ -121,113 +121,202 @@
 6. fsdgsdg
 
    ```
-   dfghfdg
+   /* Includes ------------------------------------------------------------------*/
+   #include "main.h"
+   #include "stm32f4xx_hal.h"
+   #include "usb_host.h"
+
+   /* USER CODE BEGIN Includes */
+
+   /* USER CODE END Includes */
+
+   /* Private variables ---------------------------------------------------------*/
+   I2C_HandleTypeDef hi2c1;
+
+   I2S_HandleTypeDef hi2s3;
+
+   SPI_HandleTypeDef hspi1;
+
+   /* USER CODE BEGIN PV */
+   /* Private variables ---------------------------------------------------------*/
+
+   /* USER CODE END PV */
+
+   /* Private function prototypes -----------------------------------------------*/
+   void SystemClock_Config(void);
+   static void MX_GPIO_Init(void);
+   static void MX_I2C1_Init(void);
+   static void MX_I2S3_Init(void);
+   static void MX_SPI1_Init(void);
+   void MX_USB_HOST_Process(void);
+
+   /* USER CODE BEGIN PFP */
+   /* Private function prototypes -----------------------------------------------*/
+
+   /* USER CODE END PFP */
+
+   /* USER CODE BEGIN 0 */
+
+   /* USER CODE END 0 */
+   uint8_t receiveData[1];
+
+   int main(void)
+   {
+
+     /* USER CODE BEGIN 1 */
+
+     /* USER CODE END 1 */
+
+     /* MCU Configuration----------------------------------------------------------*/
+
+     /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+     HAL_Init();
+
+     /* USER CODE BEGIN Init */
+
+     /* USER CODE END Init */
+
+     /* Configure the system clock */
+     SystemClock_Config();
+
+     /* USER CODE BEGIN SysInit */
+
+     /* USER CODE END SysInit */
+
+     /* Initialize all configured peripherals */
+     MX_GPIO_Init();
+     MX_I2C1_Init();
+     //MX_I2S3_Init();
+     //MX_SPI1_Init();
+     //MX_USB_HOST_Init();
+
+     /* USER CODE BEGIN 2 */
+
+     /* USER CODE END 2 */
+
+     /* Infinite loop */
+     /* USER CODE BEGIN WHILE */
+	
+     while (1)
+     {
+     /* USER CODE END WHILE */
+       //MX_USB_HOST_Process();
+   		HAL_I2C_Slave_Receive(&hi2c1,receiveData,1,1000);
+   		if (receiveData[0] == 255) {
+   			HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,1);
+   		}
+   		else if(receiveData[0] == 127) {
+   			HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,0);
+   		}
+		
+
+     /* USER CODE BEGIN 3 */
+
+     }
+     /* USER CODE END 3 */
+
+   }
    ```
 
 7. sdfsdf
 
-8. 
-```c
-/* Includes ------------------------------------------------------------------*/
-#include "main.h"
-#include "stm32f4xx_hal.h"
-#include "usb_host.h"
+8. \`\`\`c  
+   /_ Includes ------------------------------------------------------------------_/
 
-/* USER CODE BEGIN Includes */
+   # include "main.h"
 
-/* USER CODE END Includes */
+   # include "stm32f4xx\_hal.h"
 
-/* Private variables ---------------------------------------------------------*/
-I2C_HandleTypeDef hi2c1;
+   # include "usb\_host.h"
 
-I2S_HandleTypeDef hi2s3;
+/_ USER CODE BEGIN Includes _/
 
-SPI_HandleTypeDef hspi1;
+/_ USER CODE END Includes _/
 
-/* USER CODE BEGIN PV */
-/* Private variables ---------------------------------------------------------*/
+/_ Private variables ---------------------------------------------------------_/  
+I2C\_HandleTypeDef hi2c1;
 
-/* USER CODE END PV */
+I2S\_HandleTypeDef hi2s3;
 
-/* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_I2C1_Init(void);
-static void MX_I2S3_Init(void);
-static void MX_SPI1_Init(void);
-void MX_USB_HOST_Process(void);
+SPI\_HandleTypeDef hspi1;
 
-/* USER CODE BEGIN PFP */
-/* Private function prototypes -----------------------------------------------*/
+/_ USER CODE BEGIN PV _/  
+/_ Private variables ---------------------------------------------------------_/
 
-/* USER CODE END PFP */
+/_ USER CODE END PV _/
 
-/* USER CODE BEGIN 0 */
+/_ Private function prototypes -----------------------------------------------_/  
+void SystemClock\_Config\(void\);  
+static void MX\_GPIO\_Init\(void\);  
+static void MX\_I2C1\_Init\(void\);  
+static void MX\_I2S3\_Init\(void\);  
+static void MX\_SPI1\_Init\(void\);  
+void MX\_USB\_HOST\_Process\(void\);
 
-/* USER CODE END 0 */
-uint8_t receiveData[1];
+/_ USER CODE BEGIN PFP _/  
+/_ Private function prototypes -----------------------------------------------_/
 
-int main(void)
+/_ USER CODE END PFP _/
+
+/_ USER CODE BEGIN 0 _/
+
+/_ USER CODE END 0 _/  
+uint8\_t receiveData\[1\];
+
+int main\(void\)  
 {
 
-  /* USER CODE BEGIN 1 */
+/_ USER CODE BEGIN 1 _/
 
-  /* USER CODE END 1 */
+/_ USER CODE END 1 _/
 
-  /* MCU Configuration----------------------------------------------------------*/
+/_ MCU Configuration----------------------------------------------------------_/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+/_ Reset of all peripherals, Initializes the Flash interface and the Systick. _/  
+  HAL\_Init\(\);
 
-  /* USER CODE BEGIN Init */
+/_ USER CODE BEGIN Init _/
 
-  /* USER CODE END Init */
+/_ USER CODE END Init _/
 
-  /* Configure the system clock */
-  SystemClock_Config();
+/_ Configure the system clock _/  
+  SystemClock\_Config\(\);
 
-  /* USER CODE BEGIN SysInit */
+/_ USER CODE BEGIN SysInit _/
 
-  /* USER CODE END SysInit */
+/_ USER CODE END SysInit _/
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_I2C1_Init();
-  //MX_I2S3_Init();
-  //MX_SPI1_Init();
-  //MX_USB_HOST_Init();
+/_ Initialize all configured peripherals _/  
+  MX\_GPIO\_Init\(\);  
+  MX\_I2C1\_Init\(\);  
+  //MX\_I2S3\_Init\(\);  
+  //MX\_SPI1\_Init\(\);  
+  //MX\_USB\_HOST\_Init\(\);
 
-  /* USER CODE BEGIN 2 */
+/_ USER CODE BEGIN 2 _/
 
-  /* USER CODE END 2 */
+/_ USER CODE END 2 _/
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+/_ Infinite loop _/  
+  /_ USER CODE BEGIN WHILE _/
 
-  while (1)
-  {
-  /* USER CODE END WHILE */
-    //MX_USB_HOST_Process();
-        HAL_I2C_Slave_Receive(&hi2c1,receiveData,1,1000);
-        if (receiveData[0] == 255) {
-            HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,1);
+while \(1\)  
+  {  
+  /_ USER CODE END WHILE _/  
+    //MX\_USB\_HOST\_Process\(\);  
+        HAL\_I2C\_Slave\_Receive\(&hi2c1,receiveData,1,1000\);  
+        if \(receiveData\[0\] == 255\) {  
+            HAL\_GPIO\_WritePin\(LD3\_GPIO\_Port,LD3\_Pin,1\);  
+        }  
+        else if\(receiveData\[0\] == 127\) {  
+            HAL\_GPIO\_WritePin\(LD3\_GPIO\_Port,LD3\_Pin,0\);  
         }
-        else if(receiveData[0] == 127) {
-            HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,0);
-        }
 
+/_ USER CODE BEGIN 3 _/
 
-  /* USER CODE BEGIN 3 */
+}  
+  /_ USER CODE END 3 _/
 
-  }
-  /* USER CODE END 3 */
-
-}
-```
-
-
-
-
-
-
+}  
+\`\`\`
 
