@@ -15,6 +15,7 @@
 * [SPI](spi.md)
   * [Kirim Data](spi/kirim-data.md)
   * [Terima Data](spi/terima-data.md)
-* I2C
+* [I2C](i2c.md)
+  * [Komunikasi I2C Menggunakan Sistem Pooling](i2c/komunikasi-i2c-menggunakan-sistem-pooling.md)
 * DMA
 

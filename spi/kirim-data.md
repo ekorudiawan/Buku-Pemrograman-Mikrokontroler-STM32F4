@@ -1,4 +1,4 @@
-## Kirim Data dengan Sistem Antrian
+## Kirim Data dengan Sistem Pooling
 
 **Kebutuhan Komponen**
 

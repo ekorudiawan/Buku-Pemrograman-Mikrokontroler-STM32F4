@@ -242,7 +242,7 @@
 2. Lakukan konfigurasi GPIO pada pin PB12 menjadi output  
    ![](/assets/2017-11-27_130014 - Copy.png)
 
-3. Lakukan konfigurasi pada peripheral SPI2. Aturlah nilai prescaler menjadi 256, sehingga kecepatan transfer data menjadi 164.062 KBps   
+3. Lakukan konfigurasi pada peripheral SPI2. Aturlah nilai prescaler menjadi 256, sehingga kecepatan transfer data menjadi 164.062 KBps  
    ![](/assets/2017-11-27_131912.png)  
    ![](/assets/2017-11-27_130143.png)
 
